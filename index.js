@@ -24,6 +24,14 @@
 //             <button class="button">Add</div>
 //         `
 // }
+$(document).ready(init)
+    
+    function init () {
+        
+        document.getElementById("moviesContainer").innerHTML = renderMovies(movieData)
+          }
+
+
 function renderMovies (movieArray) {
     var movieHTML = movieArray.map(function (currentMovie) {
         return `
@@ -38,21 +46,29 @@ function renderMovies (movieArray) {
             <p>${currentMovie.Year}
             </div>
             <div class='button'>
-            <button class='addMovieButton' onclick="saveToWatchlist()">Add Movie!</button>
+            <button class='addButtonClick' onclick="saveToWatchlist(${currentMovie.imdbID})">Add Movie!</button>
             </div>
         </div>
         `
+        function saveToWatchlist (imdbID) {
+            const movie = movieData.find(function (currentMovie) {
+                return currentMovie.imdbID == imdbID;
+            });
+            const watchlistJSON = localStorage.getItem('watchlist');
+            const watchlist = JSON.parse(watchlistJSON);
+
+            if (watchlist = null) {
+                return watchlist = []
+            }
+            watchlist.push(movie);
+            watchlistJSON = JSON.stringify(watchlist);
+            localStorage.setItem('watchlist', watchlistJSON);
+        }
     })
     
     return movieHTML.join('')
 }
 
-$(document).ready(init)
-    
-    function init () {
-        
-        document.getElementById("moviesContainer").innerHTML = renderMovies(movieData)
-          }
 
 
   
